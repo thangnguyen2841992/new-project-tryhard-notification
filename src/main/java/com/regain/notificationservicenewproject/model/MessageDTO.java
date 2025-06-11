@@ -9,6 +9,7 @@ public class MessageDTO {
     private String from;
     private String to;
     private String toName;
+    private String activeCode;
     private String subject;
     private String content;
 
@@ -50,5 +51,13 @@ public class MessageDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getActiveCode() {
+        return activeCode;
+    }
+
+    public void setActiveCode(String activeCode) {
+        this.activeCode = activeCode;
     }
 }
