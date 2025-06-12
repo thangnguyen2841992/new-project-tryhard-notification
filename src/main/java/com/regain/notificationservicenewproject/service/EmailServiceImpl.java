@@ -23,18 +23,18 @@ public class EmailServiceImpl implements IEmailService {
 
     @Override
     @Async
-    public void sendEmailActive(String to, String codeActive) {
+    public void sendEmailActive(String to, String toName, String codeActive) {
         String subject = "Kích hoạt tài khoản của bạn tại WatchStore";
-        String text = "<br/> Click vào đường link để kích hoạt tài khoản: ";
-        String url = "http://localhost:3000/active/" + to +"/" + codeActive;
-        text += ("<br/> <a href=" + url + ">" + url + "</a>" );
+        String text = "<br/> Xin chào" + toName + "<br/> Click vào đường link để kích hoạt tài khoản: ";
+        String url = "http://localhost:3000/active/" + to + "/" + codeActive;
+        text += ("<br/> <a href=" + url + ">" + url + "</a>");
         sendMailActiveAccount(to, subject, text);
     }
 
-    private  void sendMailActiveAccount(String to, String subject, String text) {
+    private void sendMailActiveAccount(String to, String subject, String text) {
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
-            MimeMessageHelper helper =new MimeMessageHelper(message, true);
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom(from);
             helper.setTo(to);
             helper.setText(text, true);

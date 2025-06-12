@@ -14,9 +14,9 @@ public class MessageService {
     @Autowired
     private IEmailService emailService;
 
-    @KafkaListener(id="sendEmailActiveGroup", topics = "send-email-active")
-    public void receiveEmailActive(MessageDTO messageDTO ) {
+    @KafkaListener(id = "sendEmailActiveGroup", topics = "send-email-active")
+    public void receiveEmailActive(MessageDTO messageDTO) {
         logger.info("Received email: {}", messageDTO.getTo());
-        emailService.sendEmailActive(messageDTO.getTo(), messageDTO.getActiveCode());
+        emailService.sendEmailActive(messageDTO.getTo(), messageDTO.getToName(), messageDTO.getActiveCode());
     }
 }
