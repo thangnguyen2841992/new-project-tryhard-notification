@@ -4,4 +4,5 @@ import com.regain.notificationservicenewproject.model.MessageDTO;
 
 public interface IEmailService {
     void sendEmailActive(String to, String toName, String codeActive);
+    void sendEmailNotification(String to, String toName, String content);
 }

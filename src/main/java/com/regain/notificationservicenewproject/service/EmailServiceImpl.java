@@ -31,6 +31,16 @@ public class EmailServiceImpl implements IEmailService {
         sendMailActiveAccount(to, subject, text);
     }
 
+
+    @Override
+    @Async
+    public void sendEmailNotification(String to, String toName, String content) {
+        String subject = "Thông báo của bạn!!";
+        String text = "<br/> Xin chào  <b>" + toName + "</b><br/>";
+        text += ("<br/>" + content + "<br/>");
+        sendMailActiveAccount(to, subject, text);
+    }
+
     private void sendMailActiveAccount(String to, String subject, String text) {
         MimeMessage message = javaMailSender.createMimeMessage();
         try {

@@ -1,6 +1,7 @@
 package com.regain.notificationservicenewproject.service;
 
 import com.regain.notificationservicenewproject.model.MessageDTO;
+import com.regain.notificationservicenewproject.model.MessageNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,12 @@ public class MessageService {
     public void receiveEmailActive(MessageDTO messageDTO) {
         logger.info("Received email: {}", messageDTO.getTo());
         emailService.sendEmailActive(messageDTO.getTo(), messageDTO.getToName(), messageDTO.getActiveCode());
+    }
+
+
+    @KafkaListener(id = "sendEmailNotificationGroup", topics = "send-email-notification")
+    public void receiveEmailNotification(MessageNotification messageDTO) {
+        logger.info("Received email: {}", messageDTO.getTo());
+        emailService.sendEmailNotification(messageDTO.getTo(), messageDTO.getToName(), messageDTO.getContent());
     }
 }
