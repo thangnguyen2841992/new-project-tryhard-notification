@@ -25,6 +25,6 @@ public class MessageService {
     @KafkaListener(id = "sendEmailNotificationGroup", topics = "send-email-notification")
     public void receiveEmailNotification(MessageNotification messageDTO) {
         logger.info("Received email: {}", messageDTO.getTo());
-        emailService.sendEmailNotification(messageDTO.getTo(), messageDTO.getToName(), messageDTO.getContent());
+        emailService.sendEmailNotification(messageDTO);
     }
 }

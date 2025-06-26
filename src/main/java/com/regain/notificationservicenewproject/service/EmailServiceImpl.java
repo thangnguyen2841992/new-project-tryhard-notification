@@ -1,6 +1,7 @@
 package com.regain.notificationservicenewproject.service;
 
 
+import com.regain.notificationservicenewproject.model.MessageNotification;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
@@ -34,11 +35,38 @@ public class EmailServiceImpl implements IEmailService {
 
     @Override
     @Async
-    public void sendEmailNotification(String to, String toName, String content) {
-        String subject = "Thông báo của bạn!!";
-        String text = "<br/> Xin chào  <b>" + toName + "</b><br/>";
-        text += ("<br/>" + content + "<br/>");
-        sendMailActiveAccount(to, subject, text);
+    public void sendEmailNotification(MessageNotification messageNotification) {
+        String subject = "Thông Báo Của Bạn!";
+        String text = "<br/> Xin Chào  <b>" + messageNotification.getToName() + "</b><br/>";
+        String url = "http://localhost:3000/about/" + messageNotification.getFormUserId();
+        String content = "";
+        switch (messageNotification.getTypeNotification()) {
+            case  1 : {
+                content += " đã yêu thích bài viết ";
+                break;
+            }
+            case  2 : {
+                content += " đã để lại bình luận ở bài viết ";
+                break;
+            }
+            case  3 : {
+                content += " đã yêu thích bình luận của bạn ở bài viết ";
+                break;
+            }
+            case  4 : {
+                content += " đã phản hồi bình luận của bạn ở bài viết ";
+                break;
+            }
+        }
+        if (messageNotification.getTypeNotification() == 1) {
+            text += ("<br/> <a href=" + url + ">" + "<b>" + messageNotification.getFormName() + "</b>" + content + "<b>" + messageNotification.getPostTitle()+ " !" + "</a>");
+        } else {
+            text += ("<br/> <a href=" + url + ">" + "<b>" + messageNotification.getFormName() + "</b>" + content + "<b>" + messageNotification.getPostTitle()+ " !" + "</a>");
+            text += ("<br/><b>Nội dung: </b><p>" + messageNotification.getContent() + "</p>" );
+        }
+        text += ("<b>Chúc bạn 1 ngày vui vẻ!</b>" );
+        sendMailActiveAccount(messageNotification.getTo(), subject, text);
+
     }
 
     private void sendMailActiveAccount(String to, String subject, String text) {
